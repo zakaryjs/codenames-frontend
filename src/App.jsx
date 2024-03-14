@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import './App.css'
 import io from 'socket.io-client'
+import { useNavigate } from 'react-router-dom'
+import { WordContext } from './contexts/WordContext'
 const socket = io.connect('http://localhost:3001')
 
 function App() {
@@ -8,6 +10,9 @@ function App() {
   const [name, setName] = useState('')
   const [users, setUsers] = useState([])
   const [roomToJoin, setRoomToJoin] = useState('')
+  const {setWords} = useContext(WordContext)
+
+  const navigate = useNavigate()
 
   socket.on('users', function(users) {
     setUsers(users)
@@ -16,6 +21,15 @@ function App() {
   let joinRoom = () => {
     socket.emit('join-room', {name, roomToJoin})
   }
+
+  let startGame = () => {
+    socket.emit('start-game', (roomToJoin))
+  }
+
+  socket.on('game-started', function(words) {
+    setWords(words)
+    navigate('/game')
+  })
 
   return (
     <>
@@ -34,6 +48,7 @@ function App() {
       {users.length > 0 && users.map(user => (
         <h4 key={user}>{user}</h4>
       ))}
+      {users.length >= 4 && <button onClick={startGame}>Start Game</button>}
     </>
   )
 }
