@@ -44,6 +44,23 @@
 .word-square {
   background-color: whitesmoke;
   border: 1px black solid;
-  width: 150px;
   height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapper {
+  width: 600px;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  grid-gap: 10px;
+  grid-template-columns: repeat(5, 120px);
+  grid-template-rows: repeat(5, 100px);
+  grid-auto-flow: column;
+}
+
+.centred-word {
+  text-align: center;
 }

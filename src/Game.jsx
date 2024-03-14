@@ -12,11 +12,13 @@ export default function Game() {
         <>
             <h1>Codenames</h1>
             <h2>Built with React, Node and Socket.IO</h2>
-            {words.map(word => (
-                <div key={word.word} className="word-square">
-                    <p>{word.word}</p>
-                </div>
-            ))}
+            <div className="wrapper">
+                {words.map(word => (
+                    <div key={word.word} className="word-square">
+                        <p className="centred-word">{word.word}</p>
+                    </div>
+                ))}
+            </div>
         </>
     )
 }
