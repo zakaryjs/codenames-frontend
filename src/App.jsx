@@ -1,16 +1,13 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import './App.css'
 import io from 'socket.io-client'
 import { useNavigate } from 'react-router-dom'
 import { WordContext } from './contexts/WordContext'
-const socket = io.connect('http://localhost:3001')
+export const socket = io.connect('http://localhost:3001')
 
 function App() {
 
-  const [name, setName] = useState('')
-  const [users, setUsers] = useState([])
-  const [roomToJoin, setRoomToJoin] = useState('')
-  const {setWords} = useContext(WordContext)
+  const {setWords, users, setUsers, name, setName, roomToJoin, setRoomToJoin} = useContext(WordContext)
 
   const navigate = useNavigate()
 
