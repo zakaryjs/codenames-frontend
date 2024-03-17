@@ -9,26 +9,35 @@ export default function Game() {
         blue: []
     })
 
+    const [spymasters, setSpymasters] = useState({
+        orange: [],
+        blue: []
+    })
+
     const [teamToJoin, setTeamToJoin] = useState('')
     const [joinedTeam, setJoinedTeam] = useState(false)
+    const [isSpymaster, setIsSpymaster] = useState(false)
     const {words, users, name, roomToJoin} = useContext(WordContext)
 
     function setTeam(team) {
         setTeamToJoin(team)
-        setJoinedTeam(true)
     }
 
     let joinTeam = () => {
         socket.emit('join-team', {name, roomToJoin, teamToJoin})
       }
 
-    useEffect(() => {
-        console.log(users)
-    })
+    let becomeSpymaster = () => {
+        socket.emit('become-spymaster', {name, roomToJoin, teamToJoin})
+        setIsSpymaster(true)
+      }
 
     useEffect(() => {
-        if (teamToJoin == 'orange' || teamToJoin == 'blue') {
-            joinTeam()
+        if (!joinedTeam) {
+            if (teamToJoin == 'orange' || teamToJoin == 'blue') {
+                joinTeam()
+                setJoinedTeam(true)
+            }
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [teamToJoin])
@@ -36,6 +45,11 @@ export default function Game() {
     socket.on('teams', function(toSend) {
         console.log(toSend)
         setTeams(toSend)
+    })
+
+    socket.on('spymasters', function(toSend) {
+        console.log(toSend)
+        setSpymasters(toSend)
     })
 
     return (
@@ -55,12 +69,24 @@ export default function Game() {
                     <p key={user} className="centred-word">{user}</p>
                 ))}
                 <h3>Orange Team</h3>
+                <h4>Spymasters</h4>
+                {spymasters.orange.map(player => (
+                    <p key={player} className="centred-word">{player}</p>
+                ))}
+                {joinedTeam && !isSpymaster && teamToJoin == 'orange' && <button onClick={becomeSpymaster}>Become Spymaster</button>}
                 {!joinedTeam && <button onClick={() => {setTeam('orange')}}>Join Orange Team</button>}
+                <h4>All Players</h4>
                 {teams.orange.map(player => (
                     <p key={player} className="centred-word">{player}</p>
                 ))}
                 <h3>Blue Team</h3>
+                <h4>Spymasters</h4>
+                {spymasters.blue.map(player => (
+                    <p key={player} className="centred-word">{player}</p>
+                ))}
+                {joinedTeam && !isSpymaster && teamToJoin == 'blue' && <button onClick={() => {becomeSpymaster()}}>Become Spymaster</button>}
                 {!joinedTeam && <button onClick={() => {setTeam('blue')}}>Join Blue Team</button>}
+                <h4>All Players</h4>
                 {teams.blue.map(player => (
                     <p key={player} className="centred-word">{player}</p>
                 ))}
