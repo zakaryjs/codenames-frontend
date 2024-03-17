@@ -4,8 +4,19 @@ import { socket } from "./App"
 
 export default function Game() {
 
+    const [teams, setTeams] = useState({
+        orange: [],
+        blue: []
+    })
+
     const [teamToJoin, setTeamToJoin] = useState('')
+    const [joinedTeam, setJoinedTeam] = useState(false)
     const {words, users, name, roomToJoin} = useContext(WordContext)
+
+    function setTeam(team) {
+        setTeamToJoin(team)
+        setJoinedTeam(true)
+    }
 
     let joinTeam = () => {
         socket.emit('join-team', {name, roomToJoin, teamToJoin})
@@ -24,6 +35,7 @@ export default function Game() {
 
     socket.on('teams', function(toSend) {
         console.log(toSend)
+        setTeams(toSend)
     })
 
     return (
@@ -38,14 +50,20 @@ export default function Game() {
                 ))}
             </div>
             <div>
-                <h3>Unassigned</h3>
+                <h3>Player List</h3>
                 {users.map(user => (
                     <p key={user} className="centred-word">{user}</p>
                 ))}
                 <h3>Orange Team</h3>
-                <button onClick={() => {setTeamToJoin('orange')}}>Join Orange Team</button>
+                {!joinedTeam && <button onClick={() => {setTeam('orange')}}>Join Orange Team</button>}
+                {teams.orange.map(player => (
+                    <p key={player} className="centred-word">{player}</p>
+                ))}
                 <h3>Blue Team</h3>
-                <button onClick={() => {setTeamToJoin('blue')}}>Join Blue Team</button>
+                {!joinedTeam && <button onClick={() => {setTeam('blue')}}>Join Blue Team</button>}
+                {teams.blue.map(player => (
+                    <p key={player} className="centred-word">{player}</p>
+                ))}
             </div>
         </>
     )
