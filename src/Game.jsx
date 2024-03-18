@@ -56,13 +56,24 @@ export default function Game() {
         <>
             <h1>Codenames</h1>
             <h2>Built with React, Node and Socket.IO</h2>
-            <div className="wrapper">
+            {!isSpymaster && (
+                <div className="wrapper">
                 {words.map(word => (
-                    <div key={word.word} className="word-square">
+                    <div key={word.word} className="neutral">
                         <p className="centred-word">{word.word}</p>
                     </div>
                 ))}
             </div>
+            )}
+            {isSpymaster && (
+                <div className="wrapper">
+                {words.map(word => (
+                    <div key={word.word} className={word.colour}>
+                        <p className="centred-word">{word.word}</p>
+                    </div>
+                ))}
+            </div>
+            )}
             <div>
                 <h3>Player List</h3>
                 {users.map(user => (
