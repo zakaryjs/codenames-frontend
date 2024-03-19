@@ -45,7 +45,7 @@ function App() {
       {users.length > 0 && users.map(user => (
         <h4 key={user}>{user}</h4>
       ))}
-      {users.length >= 4 && <button onClick={startGame}>Start Game</button>}
+      {<button onClick={startGame}>Start Game</button>}
     </>
   )
 }

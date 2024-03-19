@@ -18,6 +18,11 @@ export default function Game() {
     const [joinedTeam, setJoinedTeam] = useState(false)
     const [isSpymaster, setIsSpymaster] = useState(false)
     const {words, users, name, roomToJoin} = useContext(WordContext)
+    const [clue, setClue] = useState('')
+    const [clues, setClues] = useState([])
+    const [isSpymasterTurn, setIsSpymasterTurn] = useState(false)
+    const [isPlayerTurn, setIsPlayerTurn] = useState(false)
+    const [currentTurn, setCurrentTurn] = useState('orange')
 
     function setTeam(team) {
         setTeamToJoin(team)
@@ -30,7 +35,20 @@ export default function Game() {
     let becomeSpymaster = () => {
         socket.emit('become-spymaster', {name, roomToJoin, teamToJoin})
         setIsSpymaster(true)
+        if (teamToJoin == 'orange') {
+            setIsSpymasterTurn(true)
+        }
       }
+
+    let giveClue = () => {
+        socket.emit('give-clue', {roomToJoin, teamToJoin, clue})
+        setIsSpymasterTurn(false)
+    }
+
+    let selectGuess = (text) => {
+        let a = text
+        socket.emit('give-guess', {roomToJoin, teamToJoin, a})
+    }
 
     useEffect(() => {
         if (!joinedTeam) {
@@ -52,15 +70,23 @@ export default function Game() {
         setSpymasters(toSend)
     })
 
+    socket.on('clues', function(toSend) {
+        console.log(toSend)
+        setClues(toSend.clues)
+        setIsPlayerTurn(true)
+    })
+
     return (
         <>
             <h1>Codenames</h1>
             <h2>Built with React, Node and Socket.IO</h2>
+            {isSpymasterTurn && (currentTurn == teamToJoin) && <input value={clue} onChange={(event) => {setClue(event.target.value)}} />}
+            {isSpymasterTurn && (currentTurn == teamToJoin) && <button onClick={() => {giveClue()}}>Give Clue</button>}
             {!isSpymaster && (
                 <div className="wrapper">
                 {words.map(word => (
                     <div key={word.word} className="neutral">
-                        <p className="centred-word">{word.word}</p>
+                        <p onClick={isPlayerTurn && (currentTurn == teamToJoin) ? () => selectGuess(word.word) : null} className="centred-word">{word.word}</p>
                     </div>
                 ))}
             </div>
@@ -75,6 +101,10 @@ export default function Game() {
             </div>
             )}
             <div>
+                <h3>Clues</h3>
+                {clues.map(clue => (
+                    <p key={clue+'-clue'} className="centred-word">{clue}</p>
+                ))}
                 <h3>Player List</h3>
                 {users.map(user => (
                     <p key={user} className="centred-word">{user}</p>
