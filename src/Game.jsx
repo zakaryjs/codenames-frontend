@@ -98,7 +98,7 @@ export default function Game() {
             {isSpymaster && (
                 <div className="wrapper">
                 {words.map(word => (
-                    <div key={word.word} className={word.colour}>
+                    <div key={word.word} className={word.found.length > 1 ? word.found : word.colour}>
                         <p className="centred-word">{word.word}</p>
                     </div>
                 ))}
