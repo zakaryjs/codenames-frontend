@@ -17,7 +17,7 @@ export default function Game() {
     const [teamToJoin, setTeamToJoin] = useState('')
     const [joinedTeam, setJoinedTeam] = useState(false)
     const [isSpymaster, setIsSpymaster] = useState(false)
-    const {words, users, name, roomToJoin} = useContext(WordContext)
+    const {words, setWords, users, name, roomToJoin} = useContext(WordContext)
     const [clue, setClue] = useState('')
     const [clues, setClues] = useState([])
     const [isSpymasterTurn, setIsSpymasterTurn] = useState(false)
@@ -76,6 +76,10 @@ export default function Game() {
         setIsPlayerTurn(true)
     })
 
+    socket.on('guess-received', function(words) {
+        setWords(words)
+    })
+
     return (
         <>
             <h1>Codenames</h1>
@@ -85,7 +89,7 @@ export default function Game() {
             {!isSpymaster && (
                 <div className="wrapper">
                 {words.map(word => (
-                    <div key={word.word} className="neutral">
+                    <div key={word.word} className={word.found.length > 1 ? word.found : "neutral"}>
                         <p onClick={isPlayerTurn && (currentTurn == teamToJoin) ? () => selectGuess(word.word) : null} className="centred-word">{word.word}</p>
                     </div>
                 ))}

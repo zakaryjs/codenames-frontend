@@ -50,8 +50,26 @@
   align-items: center;
 }
 
+.neutral-found {
+  background-color: lightgrey;
+  border: 1px black solid;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .orange {
   background-color: orange;
+  border: 1px black solid;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.orange-found {
+  background-color: darkorange;
   border: 1px black solid;
   height: 100px;
   display: flex;
@@ -68,7 +86,25 @@
   align-items: center;
 }
 
+.blue-found {
+  background-color: lightblue;
+  border: 1px black solid;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .black {
+  background-color: black;
+  border: 1px black solid;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.black-found {
   background-color: black;
   border: 1px black solid;
   height: 100px;
