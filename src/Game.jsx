@@ -23,6 +23,8 @@ export default function Game() {
     const [isSpymasterTurn, setIsSpymasterTurn] = useState(false)
     const [isPlayerTurn, setIsPlayerTurn] = useState(false)
     const [currentTurn, setCurrentTurn] = useState('orange')
+    const [gameEnd, setGameEnd] = useState(false)
+    const [winner, setWinner] = useState('')
 
     function setTeam(team) {
         setTeamToJoin(team)
@@ -48,6 +50,10 @@ export default function Game() {
     let selectGuess = (text) => {
         let a = text
         socket.emit('give-guess', {roomToJoin, teamToJoin, a})
+        let word = words.find((word) => word.word === a)
+        if (word.colour != teamToJoin) {
+            socket.emit('end-turn', {roomToJoin, teamToJoin})
+        }
     }
 
     let endTurn = () => {
@@ -97,13 +103,39 @@ export default function Game() {
         setIsPlayerTurn(false)
     })
 
+    socket.on('black-win', function() {
+        if (currentTurn == 'orange') {
+            setGameEnd(true)
+            setWinner('blue')
+            setIsSpymaster(true)
+        }
+        if (currentTurn == 'blue') {
+            setGameEnd(true)
+            setWinner('orange')
+            setIsSpymaster(true)
+        }
+    })
+
+    socket.on('blue-win', function() {
+        setGameEnd(true)
+        setWinner('blue')
+        setIsSpymaster(true)
+    })
+
+    socket.on('orange-win', function() {
+        setGameEnd(true)
+        setWinner('orange')
+        setIsSpymaster(true)
+    })
+
     return (
         <>
             <h1>Codenames</h1>
             <h2>Built with React, Node and Socket.IO</h2>
+            {winner.length > 1 && <h1>Winner is {winner}!</h1>}
             {isPlayerTurn && !isSpymaster && (currentTurn == teamToJoin) && <button onClick={() => {endTurn()}}>End Turn</button>}
-            {isSpymasterTurn && isSpymaster && (currentTurn == teamToJoin) && <input value={clue} onChange={(event) => {setClue(event.target.value)}} />}
-            {isSpymasterTurn && (currentTurn == teamToJoin) && isSpymaster && <button onClick={() => {giveClue()}}>Give Clue</button>}
+            {!gameEnd && isSpymasterTurn && isSpymaster && (currentTurn == teamToJoin) && <input value={clue} onChange={(event) => {setClue(event.target.value)}} />}
+            {!gameEnd && isSpymasterTurn && (currentTurn == teamToJoin) && isSpymaster && <button onClick={() => {giveClue()}}>Give Clue</button>}
             {!isSpymaster && (
                 <div className="wrapper">
                 {words.map(word => (
