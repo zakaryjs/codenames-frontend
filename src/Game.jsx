@@ -71,17 +71,14 @@ export default function Game() {
     }, [teamToJoin])
 
     socket.on('teams', function(toSend) {
-        console.log(toSend)
         setTeams(toSend)
     })
 
     socket.on('spymasters', function(toSend) {
-        console.log(toSend)
         setSpymasters(toSend)
     })
 
     socket.on('clues', function(toSend) {
-        console.log(toSend)
         setClues(toSend.clues)
         setIsPlayerTurn(true)
     })
