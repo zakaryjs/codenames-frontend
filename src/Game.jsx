@@ -50,6 +50,10 @@ export default function Game() {
         socket.emit('give-guess', {roomToJoin, teamToJoin, a})
     }
 
+    let endTurn = () => {
+        socket.emit('end-turn', {roomToJoin, teamToJoin})
+    }
+
     useEffect(() => {
         if (!joinedTeam) {
             if (teamToJoin == 'orange' || teamToJoin == 'blue') {
@@ -81,12 +85,25 @@ export default function Game() {
         setScores(scores)
     })
 
+    socket.on('turn-end', function() {
+        console.log('yeah')
+        if (currentTurn == 'orange') {
+            setCurrentTurn('blue')
+        }
+        if (currentTurn == 'blue') {
+            setCurrentTurn('orange')
+        }
+        setIsSpymasterTurn(true)
+        setIsPlayerTurn(false)
+    })
+
     return (
         <>
             <h1>Codenames</h1>
             <h2>Built with React, Node and Socket.IO</h2>
-            {isSpymasterTurn && (currentTurn == teamToJoin) && <input value={clue} onChange={(event) => {setClue(event.target.value)}} />}
-            {isSpymasterTurn && (currentTurn == teamToJoin) && <button onClick={() => {giveClue()}}>Give Clue</button>}
+            {isPlayerTurn && !isSpymaster && (currentTurn == teamToJoin) && <button onClick={() => {endTurn()}}>End Turn</button>}
+            {isSpymasterTurn && isSpymaster && (currentTurn == teamToJoin) && <input value={clue} onChange={(event) => {setClue(event.target.value)}} />}
+            {isSpymasterTurn && (currentTurn == teamToJoin) && isSpymaster && <button onClick={() => {giveClue()}}>Give Clue</button>}
             {!isSpymaster && (
                 <div className="wrapper">
                 {words.map(word => (
