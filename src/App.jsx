@@ -7,7 +7,7 @@ export const socket = io.connect('http://localhost:3001')
 
 function App() {
 
-  const {setWords, users, setUsers, name, setName, roomToJoin, setRoomToJoin} = useContext(WordContext)
+  const {setWords, users, setUsers, name, setName, roomToJoin, setRoomToJoin, setScores} = useContext(WordContext)
 
   const navigate = useNavigate()
 
@@ -23,8 +23,9 @@ function App() {
     socket.emit('start-game', (roomToJoin))
   }
 
-  socket.on('game-started', function(words) {
+  socket.on('game-started', function({words, scores}) {
     setWords(words)
+    setScores(scores)
     navigate('/game')
   })
 

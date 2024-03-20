@@ -11,6 +11,7 @@ export default function WordProvider ({children}) {
     const [users, setUsers] = useState([])
     const [name, setName] = useState('')
     const [roomToJoin, setRoomToJoin] = useState('')
+    const [scores, setScores] = useState({})
 
     return (
         <WordContext.Provider value={
@@ -22,7 +23,9 @@ export default function WordProvider ({children}) {
                 name: name,
                 setName: setName,
                 roomToJoin: roomToJoin,
-                setRoomToJoin: setRoomToJoin
+                setRoomToJoin: setRoomToJoin,
+                scores: scores,
+                setScores: setScores
             }
         }>
             {children}

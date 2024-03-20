@@ -17,7 +17,7 @@ export default function Game() {
     const [teamToJoin, setTeamToJoin] = useState('')
     const [joinedTeam, setJoinedTeam] = useState(false)
     const [isSpymaster, setIsSpymaster] = useState(false)
-    const {words, setWords, users, name, roomToJoin} = useContext(WordContext)
+    const {words, setWords, users, name, roomToJoin, scores, setScores} = useContext(WordContext)
     const [clue, setClue] = useState('')
     const [clues, setClues] = useState([])
     const [isSpymasterTurn, setIsSpymasterTurn] = useState(false)
@@ -76,8 +76,9 @@ export default function Game() {
         setIsPlayerTurn(true)
     })
 
-    socket.on('guess-received', function(words) {
+    socket.on('guess-received', function({words, scores}) {
         setWords(words)
+        setScores(scores)
     })
 
     return (
@@ -105,6 +106,11 @@ export default function Game() {
             </div>
             )}
             <div>
+                <h3>Scores</h3>
+                <h4>Orange:</h4>
+                <p>{scores.orange}</p>
+                <h4>Blue:</h4>
+                <p>{scores.blue}</p>
                 <h3>Clues</h3>
                 {clues.map(clue => (
                     <p key={clue+'-clue'} className="centred-word">{clue}</p>
