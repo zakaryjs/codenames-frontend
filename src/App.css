@@ -23,6 +23,38 @@ h3 {
   color: white;
 }
 
+h4 {
+  color: white;
+}
+
+.white-text {
+  color: white;
+}
+
+.join-room {
+  margin-left: 0.5rem;
+  background: none;
+  color: white;
+  border: 1px solid white;
+}
+
+.start-game {
+  margin-top: 0.5rem;
+  background: none;
+  color: white;
+  border: 1px solid white;
+}
+
+.join-team {
+  background: none;
+  color: white;
+  border: 1px solid white;
+}
+
+.bottom-margin {
+  margin-bottom: 0.5rem;
+}
+
 input {
   background: none;
   border: 1px white solid;
@@ -34,8 +66,8 @@ input {
 }
 
 .neutral {
-  background-color: whitesmoke;
-  border: 1px black solid;
+  background-color: rgb(242, 229, 182);
+  border: 1px white solid;
   height: 100px;
   display: flex;
   justify-content: center;
@@ -118,4 +150,5 @@ input {
 
 .centred-word {
   text-align: center;
+  font-size: 13.5px;
 }

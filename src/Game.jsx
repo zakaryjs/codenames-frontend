@@ -130,9 +130,9 @@ export default function Game() {
             <h1>Codenames</h1>
             <h2>Built with React, Node and Socket.IO</h2>
             {winner.length > 1 && <h1>Winner is {winner}!</h1>}
-            {isPlayerTurn && !isSpymaster && (currentTurn == teamToJoin) && <button onClick={() => {endTurn()}}>End Turn</button>}
+            {isPlayerTurn && !isSpymaster && (currentTurn == teamToJoin) && <button className="start-game bottom-margin" onClick={() => {endTurn()}}>End Turn</button>}
             {!gameEnd && isSpymasterTurn && isSpymaster && (currentTurn == teamToJoin) && <input value={clue} onChange={(event) => {setClue(event.target.value)}} />}
-            {!gameEnd && isSpymasterTurn && (currentTurn == teamToJoin) && isSpymaster && <button onClick={() => {giveClue()}}>Give Clue</button>}
+            {!gameEnd && isSpymasterTurn && (currentTurn == teamToJoin) && isSpymaster && <button className="join-room bottom-margin" onClick={() => {giveClue()}}>Give Clue</button>}
             {!isSpymaster && (
                 <div className="wrapper">
                 {words.map(word => (
@@ -154,38 +154,38 @@ export default function Game() {
             <div>
                 <h3>Scores</h3>
                 <h4>Orange:</h4>
-                <p>{scores.orange}</p>
+                <p className="white-text">{scores.orange}</p>
                 <h4>Blue:</h4>
-                <p>{scores.blue}</p>
+                <p className="white-text">{scores.blue}</p>
                 <h3>Clues</h3>
                 {clues.map(clue => (
-                    <p key={clue+'-clue'} className="centred-word">{clue}</p>
+                    <p key={clue+'-clue'} className="centred-word white-text">{clue}</p>
                 ))}
                 <h3>Player List</h3>
                 {users.map(user => (
-                    <p key={user} className="centred-word">{user}</p>
+                    <p key={user} className="centred-word white-text">{user}</p>
                 ))}
                 <h3>Orange Team</h3>
                 <h4>Spymasters</h4>
                 {spymasters.orange.map(player => (
-                    <p key={player} className="centred-word">{player}</p>
+                    <p key={player} className="centred-word white-text">{player}</p>
                 ))}
-                {joinedTeam && !isSpymaster && teamToJoin == 'orange' && <button onClick={becomeSpymaster}>Become Spymaster</button>}
-                {!joinedTeam && <button onClick={() => {setTeam('orange')}}>Join Orange Team</button>}
+                {joinedTeam && !isSpymaster && teamToJoin == 'orange' && <button className="join-team" onClick={becomeSpymaster}>Become Spymaster</button>}
+                {!joinedTeam && <button className="join-team" onClick={() => {setTeam('orange')}}>Join Orange Team</button>}
                 <h4>All Players</h4>
                 {teams.orange.map(player => (
-                    <p key={player} className="centred-word">{player}</p>
+                    <p key={player} className="centred-word white-text">{player}</p>
                 ))}
                 <h3>Blue Team</h3>
                 <h4>Spymasters</h4>
                 {spymasters.blue.map(player => (
-                    <p key={player} className="centred-word">{player}</p>
+                    <p key={player} className="centred-word white-text">{player}</p>
                 ))}
-                {joinedTeam && !isSpymaster && teamToJoin == 'blue' && <button onClick={() => {becomeSpymaster()}}>Become Spymaster</button>}
-                {!joinedTeam && <button onClick={() => {setTeam('blue')}}>Join Blue Team</button>}
+                {joinedTeam && !isSpymaster && teamToJoin == 'blue' && <button className="join-team" onClick={() => {becomeSpymaster()}}>Become Spymaster</button>}
+                {!joinedTeam && <button className="join-team" onClick={() => {setTeam('blue')}}>Join Blue Team</button>}
                 <h4>All Players</h4>
                 {teams.blue.map(player => (
-                    <p key={player} className="centred-word">{player}</p>
+                    <p key={player} className="centred-word white-text">{player}</p>
                 ))}
             </div>
         </>
