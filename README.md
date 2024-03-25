@@ -1,8 +1,21 @@
-# React + Vite
+# Codenames
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Built with React, Express and Socket.IO
 
-Currently, two official plugins are available:
+This project is a recreation of the popular game Codenames, built with React, Express and Socket.IO.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### About the Game
+
+In Codenames, players are divided into two teams - Blue, and Orange. In a team, players can either be a Spymaster or an Operative. 
+
+The goal of the game is for the Spymaster(s) to provide one-word clues that relate to the words on the game board that are in their team colour. 
+
+There is also one black word on each board - if an operative guesses this word, the game ends and the opposing team wins.
+
+If a team guesses all of the words of their colour, they win the game.
+
+### Tech Stack
+
+The project utiliises Socket.IO in order to provide connections between users, and to rooms. 
+
+For each interaction with the client, the socket connection emits, which then interacts with the backend in order to send data between the client and the server.
