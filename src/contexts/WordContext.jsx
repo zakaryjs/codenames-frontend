@@ -1,8 +1,6 @@
 import { createContext, useState } from "react";
 
-
 export const WordContext = createContext(null)
-export const UserContext = createContext(null)
 
 // eslint-disable-next-line react/prop-types
 export default function WordProvider ({children}) {

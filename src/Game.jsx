@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from "react"
 import { WordContext } from "./contexts/WordContext"
-import { socket } from "./App"
+import { socket } from './components/socket'
 import { motion } from "framer-motion"
+import Header from "./components/Header"
 
 export default function Game() {
 
@@ -128,8 +129,7 @@ export default function Game() {
 
     return (
         <>
-            <h1>Codenames</h1>
-            <h2>Built with React, Node and Socket.IO</h2>
+            <Header />
             {winner.length > 1 && <h1>Winner is {winner}!</h1>}
             {isPlayerTurn && !isSpymaster && (currentTurn == teamToJoin) && <button className="start-game bottom-margin" onClick={() => {endTurn()}}>End Turn</button>}
             {!gameEnd && isSpymasterTurn && isSpymaster && (currentTurn == teamToJoin) && <input value={clue} onChange={(event) => {setClue(event.target.value)}} />}
