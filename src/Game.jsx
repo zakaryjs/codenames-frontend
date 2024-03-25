@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react"
 import { WordContext } from "./contexts/WordContext"
 import { socket } from "./App"
+import { motion } from "framer-motion"
 
 export default function Game() {
 
@@ -133,7 +134,12 @@ export default function Game() {
             {isPlayerTurn && !isSpymaster && (currentTurn == teamToJoin) && <button className="start-game bottom-margin" onClick={() => {endTurn()}}>End Turn</button>}
             {!gameEnd && isSpymasterTurn && isSpymaster && (currentTurn == teamToJoin) && <input value={clue} onChange={(event) => {setClue(event.target.value)}} />}
             {!gameEnd && isSpymasterTurn && (currentTurn == teamToJoin) && isSpymaster && <button className="join-room bottom-margin" onClick={() => {giveClue()}}>Give Clue</button>}
-            {!isSpymaster && (
+            <motion.div
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1 }}
+            >
+               {!isSpymaster && (
                 <div className="wrapper">
                 {words.map(word => (
                     <div key={word.word} className={word.found.length > 1 ? word.found : "neutral"}>
@@ -150,7 +156,8 @@ export default function Game() {
                     </div>
                 ))}
             </div>
-            )}
+            )} 
+            </motion.div>
             <div>
                 <h3>Scores</h3>
                 <h4>Orange:</h4>
